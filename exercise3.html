@@ -1,0 +1,80 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+    <title>Lab5 - Exercise 1</title> 
+</head> 
+<body> 
+    <input type="text" id="textInput" placeholder="Enter a user number (1-30)"/> 
+    <label id="textLabel"></label> 
+    <button id="redButton">Red</button> 
+    <button id="blueButton">Blue</button> 
+    <button id="greenButton">Green</button> 
+    <button id="orangeButton">Orange</button> 
+    <button id="purpleButton">Purple</button> 
+</body> 
+<script type="text/javascript"> 
+    let textBox = document.getElementById('textInput');
+    let textBoxLabel = document.getElementById("textLabel");
+
+    console.log(textBox, textBoxLabel);
+    console.log(textBoxLabel.textContent);
+
+    async function retrieveData(){
+        try{
+            let response = await fetch('https://67c1fad361d8935867e4f119.mockapi.io/users_api');
+            let data = await response.json();
+            console.log(data);
+            for (let i = 0; i < data.length; i++){
+                if (data[i].id == textBox.value){
+                    textBoxLabel.textContent = `ID: ${data[i].id}, Name: ${data[i].first_name}, "Group: ${data[i].user_group}`;
+                    break;
+                }
+    
+                if (textBoxLabel.textContent == ""){
+                    textBoxLabel.textContent = "No users were found with the provided User_ID.";
+                }
+            }
+        }
+        catch (error){
+            textBoxLabel.textContent = "No users were found with the provided User_ID.";
+        }
+    }
+    
+    textBox.addEventListener("keydown", (event) =>{
+        if (event.key == "Enter"){
+            textBoxLabel.textContent = "";
+           let data = retrieveData();
+        }
+    })
+
+    var red = document.getElementById("redButton");
+    var blue = document.getElementById("blueButton");
+    var green = document.getElementById("greenButton");
+    var orange = document.getElementById("orangeButton");
+    var purple = document.getElementById("purpleButton");
+
+    red.addEventListener("click", () =>{
+        textBoxLabel.setAttribute("style", "color:red");
+    })
+
+    blue.addEventListener("click", () =>{
+        textBoxLabel.setAttribute("style", "color:blue");
+    })
+
+    green.addEventListener("click", () =>{
+        textBoxLabel.setAttribute("style", "color:green");
+    })
+
+    orange.addEventListener("click", () =>{
+        textBoxLabel.setAttribute("style", "color:orange");
+    })
+
+    purple.addEventListener("click", () =>{
+        textBoxLabel.setAttribute("style", "color:purple");
+    })
+
+
+
+    
+</script> 
+</html>
